@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  GO_LATEST: "1.17"
+  GO_LATEST: "1.19"
 
 jobs:
   build:
