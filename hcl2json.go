@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 
@@ -13,7 +13,8 @@ import (
 func main() {
 	var err error
 
-	buffer, err := ioutil.ReadAll(os.Stdin)
+	// Use io.ReadAll instead of ioutil.ReadAll
+	buffer, err := io.ReadAll(os.Stdin)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -23,6 +24,7 @@ func main() {
 		log.Fatal(err)
 	}
 
+	// MarshalIndent for pretty JSON output
 	output, err := json.MarshalIndent(&converted, "", "  ")
 	if err != nil {
 		log.Fatal(err)
