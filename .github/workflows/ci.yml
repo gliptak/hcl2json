@@ -38,7 +38,7 @@ jobs:
         name: hcl2json
         path: dist/*
     - name: Post artifact link
-      if: github.event_name == 'pull_request'
+      if: github.event_name == 'pull_request' && startsWith(github.ref, 'refs/tags/v') == false
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{ github.event.number }}
