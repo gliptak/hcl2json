@@ -1,5 +1,9 @@
 name: ci
 
+permissions:
+  contents: write
+  pull-requests: write
+
 on:
   push:
     branches:
@@ -28,10 +32,18 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - uses: actions/upload-artifact@v4
+      id: upload-artifact
       if: startsWith(github.ref , 'refs/tags/v') == false
       with:
         name: hcl2json
         path: dist/*
+    - name: Post artifact link
+      if: github.event_name == 'pull_request'
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{ github.event.number }}
+        body: |
+          Build artifacts: [${{ steps.upload-artifact.outputs.artifact-url }}](${{ steps.upload-artifact.outputs.artifact-url }})
     - uses: goreleaser/goreleaser-action@v6
       if: startsWith(github.ref , 'refs/tags/v')
       with:
