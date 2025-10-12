@@ -1,4 +1,4 @@
-version: 1
+version: 2
 
 builds:
   - goos:
@@ -10,4 +10,4 @@ builds:
       - arm64
 
 archives:
-  - format: binary
+  - formats: [binary]
